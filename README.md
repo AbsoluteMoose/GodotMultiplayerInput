@@ -62,22 +62,22 @@ Here is a basic usage example:
 
 ```
 public partial class PlayerController : Node
-{\
+{
     DeviceInput input;
 
     public void SetDevice(int device)
-    {\
+    {
         input = new DeviceInput(device);
-    }\
+    }
 
     public override void _Process(double delta)
-    {\
+    {
         if input.IsActionJustPressed("Jump") 
-        {\
+        {
             Jump();
-        }\
-    }\
-}\
+        }
+    }
+}
 
 ```
 
@@ -94,10 +94,10 @@ If you want to do some logic that doesn't work with the actions system, for exam
 DeviceInput input;
 
 public override void _input(InputEvent @event)
-{\
+{
     if (!input.IsKeyboard) return;
     // in this context, you know this is a keyboard/mouse player, so you can read mouse input here and do stuff
-}\
+}
 ```
 
 ## What about other Input functions?
