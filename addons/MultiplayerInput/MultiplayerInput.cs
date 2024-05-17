@@ -62,20 +62,18 @@ public partial class MultiplayerInput : Node
 	/// <summary>
 	/// Resets all device-specific actions. Call this if any of the original input actions are changed.
 	/// </summary>
-	public static void Reset() 
+	public void Reset() 
 	{
-        MultiplayerInput singleton = Singleton;
-
         InputMap.LoadFromProjectSettings();
 
-        singleton.CoreActions = InputMap.GetActions().ToArray();
+        CoreActions = InputMap.GetActions().ToArray();
 
 		// Disable joypad events on keyboard actions
 		// by setting device id to 8 (out of range, so they'll never trigger)
 		// I can't just delete them because they're used as blueprints
 		// ... when a joypad connects
 		// This skips UI actions so it doesn't mess them up.
-		foreach (StringName action in singleton.CoreActions)
+		foreach (StringName action in CoreActions)
 		{
 			foreach (InputEvent e in InputMap.ActionGetEvents(action))
 			{
@@ -278,7 +276,7 @@ public partial class MultiplayerInput : Node
 		// First, totally re-create the InputMap for all devices
 		// This is necessary because this function may have messed up the UI Actions
 		// ... on a previous call
-		Reset();
+		Singleton.Reset();
 
 		// We are back to default behavior.
 		// So if that's what the caller wants, we're done!
