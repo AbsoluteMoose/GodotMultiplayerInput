@@ -22,17 +22,9 @@ namespace MultiplayerInputSystem;
 /// </summary>
 public partial class MultiplayerInput : Node
 {
-	// Uses a GDscript helper class to obtain a reference to the singleton.
-	// This allows it to be accessed statically through the class name.
-	// This is required due to singletons being inacessable in non-Node classes (or static members) in C#.
-	public static MultiplayerInput Singleton 
-	{ 
-		get
-        {
-            RefCounted singletonObtainer = (RefCounted)GD.Load<GDScript>("res://addons/MultiplayerInput/singleton_obtainer.gd").New();
-            return (MultiplayerInput)singletonObtainer.Call("get_singleton");
-        } 
-	}
+	// Gets a static reference to the singleton through the Engine singleton.
+	// WARNING: This will fail if the main loop has been changed.
+	public static MultiplayerInput Singleton => ((SceneTree)Engine.GetMainLoop()).Root.GetNode<MultiplayerInput>("/root/MultiplayerInput");
 
     // An array of all the non-duplicated action names
     protected StringName[] CoreActions;
