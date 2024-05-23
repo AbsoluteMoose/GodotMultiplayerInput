@@ -32,6 +32,7 @@ public partial class DeviceInput : RefCounted
     {
         Device = device;
         Input.JoyConnectionChanged += OnJoyConnectionChanged;
+        if (device >= 0) IsDeviceConnected = Input.GetConnectedJoypads().Contains(device);
     }
 
     /// <summary>
