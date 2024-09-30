@@ -68,14 +68,14 @@ public partial class MultiplayerInput : Node
 		foreach (StringName action in CoreActions)
 		{
 			foreach (InputEvent e in InputMap.ActionGetEvents(action))
-			{
-				if (IsJoypadEvent(e) && !IsUiAction(action))
-				{
-					e.Device = 8;
+            {
+                if (IsJoypadEvent(e) && !IsUiAction(action))
+                {
+                    e.Device = 8;
 				}
 			}
-		}
-	}
+        }
+    }
 
 	private void OnJoyConnectionChanged(long device, bool connected)
 	{
@@ -85,6 +85,7 @@ public partial class MultiplayerInput : Node
 
 	private void CreateActionsForDevice(int device)
 	{
+		GD.Print("Made actions for device " + device);
 		// Skip action creation if the device should be ignored
 		if (IgnoredGuids.Contains(Input.GetJoyGuid(device))) return;
 
@@ -98,7 +99,8 @@ public partial class MultiplayerInput : Node
 			IEnumerable<InputEvent> events = InputMap.ActionGetEvents(coreAction).Where(IsJoypadEvent);
 
 			// Only copy this event if it is relevant to joypads
-			if (events.Any()) {
+			if (events.Any()) 
+			{
 				//first add the action with the new name
 				InputMap.AddAction(newAction, deadzone);
 
@@ -245,7 +247,10 @@ public partial class MultiplayerInput : Node
     {
         if (device >= 0)
         {
-            if (!Singleton.DeviceActions.TryGetValue(device, out Dictionary<StringName, StringName> value)) throw new ApplicationException("Device " + device +" has no actions. Maybe the joypad is disconnected.");
+			if (!Singleton.DeviceActions.TryGetValue(device, out Dictionary<StringName, StringName> value)) 
+			{ 
+				throw new ApplicationException("Device " + device + " has no actions. Maybe the joypad is disconnected."); 
+			}
 			//if it says this dictionary doesn't have the key,
 			//that could mean it's an invalid action name.
 			//or it could mean that action doesn't have a joypad event assigned
